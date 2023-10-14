@@ -5,7 +5,7 @@ namespace Tools\Exceptions;
 use Exception;
 
 /**
- * Ошибка закрытия файла
+ * Ошибка JWT токена
  */
 class JWTTokenException extends Exception
 {

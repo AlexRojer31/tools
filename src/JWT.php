@@ -9,11 +9,24 @@ use Tools\Exceptions\JWTTokenException;
  */
 class JWT
 {
+    /**
+     * Заголовок JWT токена
+     *
+     * @var array
+     */
     private $header = [
         'alg' => 'sha256',
         'typ' => 'JWT'
     ];
 
+    /**
+     * Генерация JWT токена
+     *
+     * @param array $payload
+     * @param string $sekret
+     *
+     * @return string
+     */
     public function generateToken(array $payload, string $sekret): string
     {
         $header = json_encode($this->header);
@@ -23,6 +36,14 @@ class JWT
         return $unsignedToken . '.' . $signature;
     }
 
+    /**
+     * Получение payload JWT токена
+     *
+     * @param string $token
+     * @param string $sekret
+     *
+     * @return array
+     */
     public function getPayload(string $token, string $sekret): array
     {
         $arr = explode('.', $token);
