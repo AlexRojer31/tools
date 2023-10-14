@@ -9,12 +9,12 @@ class JWTTest extends TestCase
 {
     public $payload = [
         'userId' => 1,
-        'userName' => 'Alex'
+        'user_name' => 'Alex'
     ];
 
-    public $sekret = 'sekret';
+    public $secret = 'secret';
 
-    public $token = 'eyJhbGciOiJzaGEyNTYiLCJ0eXAiOiJKV1QifQ==.eyJ1c2VySWQiOjEsInVzZXJOYW1lIjoiQWxleCJ9.8fdea21a2b3570f952c08fb72e9af6645e69a93071f9668f70b8b38dadadeffa';
+    public $token = 'eyJhbGciOiJzaGEyNTYiLCJ0eXAiOiJKV1QifQ==.eyJ1c2VySWQiOjEsInVzZXJfbmFtZSI6IkFsZXgifQ==.adee0532162fd9f05485bbdb14019bd2807fb109c76bf161c61ba5840c7567a0';
 
     /**
      * @covers JWT::generateToken
@@ -22,7 +22,7 @@ class JWTTest extends TestCase
     public function testGenerateToken() : void
     {
         $jwt = new JWT();
-        $this->assertEquals($jwt->generateToken($this->payload, $this->sekret), $this->token);
+        $this->assertEquals($jwt->generateToken($this->payload, $this->secret), $this->token);
     }
 
     /**
@@ -32,7 +32,7 @@ class JWTTest extends TestCase
     {
         $jwt = new JWT();
         $this->assertEquals(
-            json_encode($jwt->getPayload($this->token, $this->sekret)),
+            json_encode($jwt->getPayload($this->token, $this->secret)),
             json_encode($this->payload)
         );
     }
@@ -44,7 +44,7 @@ class JWTTest extends TestCase
     {
         $this->expectException(JWTTokenException::class);
         $jwt = new JWT();
-        $jwt->getPayload($this->token, 'failSekret');
+        $jwt->getPayload($this->token, 'failSecret');
     }
 }
 

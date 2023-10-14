@@ -23,16 +23,16 @@ class JWT
      * Генерация JWT токена
      *
      * @param array $payload
-     * @param string $sekret
+     * @param string $secret
      *
      * @return string
      */
-    public function generateToken(array $payload, string $sekret): string
+    public function generateToken(array $payload, string $secret): string
     {
         $header = json_encode($this->header);
         $payload = json_encode($payload);
         $unsignedToken = base64_encode($header) . '.' . base64_encode($payload);
-        $signature = hash_hmac('sha256', $unsignedToken, $sekret);
+        $signature = hash_hmac('sha256', $unsignedToken, $secret);
         return $unsignedToken . '.' . $signature;
     }
 
@@ -40,11 +40,11 @@ class JWT
      * Получение payload JWT токена
      *
      * @param string $token
-     * @param string $sekret
+     * @param string $secret
      *
      * @return array
      */
-    public function getPayload(string $token, string $sekret): array
+    public function getPayload(string $token, string $secret): array
     {
         $arr = explode('.', $token);
         if (count($arr) !== 3) {
@@ -60,7 +60,7 @@ class JWT
         $payload = $arr[1];
         $signature = $arr[2];
 
-        if ($signature !== hash_hmac($alg, $header . '.' . $payload, $sekret)) {
+        if ($signature !== hash_hmac($alg, $header . '.' . $payload, $secret)) {
             throw new JWTTokenException('Недействительная подпись');
         }
 
