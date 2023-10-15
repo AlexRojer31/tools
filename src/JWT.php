@@ -43,6 +43,8 @@ class JWT
      * @param string $secret
      *
      * @return array
+     *
+     * @throws JWTTokenException
      */
     public function getPayload(string $token, string $secret): array
     {
